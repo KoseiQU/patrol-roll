@@ -1,0 +1,29 @@
+{
+  "name": "パとるロール",
+  "short_name": "パとるロール",
+  "description": "市民参加型インフラ点検PWA デモ版",
+  "display": "standalone",
+  "theme_color": "#18b9c4",
+  "background_color": "#eef6f9",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
