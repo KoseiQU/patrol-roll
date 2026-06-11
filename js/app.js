@@ -70,8 +70,9 @@
     // P2: render citizen home chrome (avatar chip / FAB / quick actions / legend)
     bindChrome();
 
-    // mode class
+    // mode class(技術者モードで起動した場合はダッシュボードも表示)
     document.body.classList.toggle("mode-engineer", App.mode === "engineer");
+    window.Dashboard?.render?.();
 
     // selftest
     if (location.search.includes("selftest=1")) {

@@ -175,5 +175,35 @@
     return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
-  window.Detail = Object.assign(window.Detail || {}, { open, STEPS, escapeHtml });
+  /* ── P3: engineer status controls ───────────────────── */
+  function _renderEngineer(report, slotEl, sheet) {
+    if (!window.App || App.mode !== "engineer") return;
+    const next = window.Dashboard && window.Dashboard.nextStatus
+      ? window.Dashboard.nextStatus(report.status)
+      : null;
+
+    // always show current status; only show advance button if there is a next step
+    const wrap = UI.el("div", "dt-eng-wrap");
+    const curRow = UI.el("div", "dt-eng-cur");
+    curRow.innerHTML = `<span class="dt-eng-label">現在のステータス：</span>`;
+    curRow.appendChild(UI.statusBadge(report.status));
+    wrap.appendChild(curRow);
+
+    if (next) {
+      const advBtn = UI.el("button", "dt-eng-adv-btn", "▶ " + next + " に進める");
+      advBtn.addEventListener("click", async () => {
+        advBtn.disabled = true;
+        advBtn.textContent = "更新中…";
+        await window.Dashboard.advanceStatus(report, (updated, newStatus) => {
+          if (sheet && typeof sheet.close === "function") sheet.close();
+          if (updated) window.Detail?.open?.(updated.id);
+        });
+      });
+      wrap.appendChild(advBtn);
+    }
+
+    slotEl.appendChild(wrap);
+  }
+
+  window.Detail = Object.assign(window.Detail || {}, { open, STEPS, escapeHtml, _renderEngineer });
 })();
