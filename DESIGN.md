@@ -36,7 +36,7 @@
 - leaflet.heat: `https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js`
 - canvas-confetti 1.9.3: `https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js`
 - フォント: Google Fonts「M PLUS Rounded 1c」(weights 500,700,800)。fallback: `"Hiragino Maru Gothic ProN", "BIZ UDGothic", sans-serif`
-- 地図タイル: CARTO Voyager `https://{s}.basemap.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`
+- 地図タイル: CARTO Voyager `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`(※ "basemaps" 複数形)
   attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`(attribution は常時表示。本番ではタイル契約要確認、とコード内コメント)
 
 ## 3. ファイル構成と所有権
@@ -251,7 +251,7 @@ MapView.locate()                  // 現在地へパン(自機マーカー=ア�
 - sw.js: バージョン定数 `const V="pr-v1"`。
   - 同一オリジン(HTML/CSS/JS): **network-first**, fallback cache(開発時の stale 防止)。
   - CDN(jsdelivr/フォント): cache-first。
-  - タイル(basemap.cartocdn.com): cache-first + 上限150件(超えたら古い順に delete)。
+  - タイル(*.basemaps.cartocdn.com): cache-first + 上限150件(超えたら古い順に delete)。
 - 登録は app.js 起動末尾(`'serviceWorker' in navigator` のみ)。file:// では登録しない。
 
 ## 9. アイコン(tools/make_icons.py) — P1

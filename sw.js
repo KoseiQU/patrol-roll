@@ -1,5 +1,5 @@
 /* パとるロール — Service Worker (P1) */
-const V = "pr-v1";
+const V = "pr-v2";
 const TILE_CACHE = V + "-tiles";
 const TILE_MAX = 150;
 
@@ -22,7 +22,7 @@ const CDN_ORIGINS = [
   "fonts.gstatic.com"
 ];
 
-const TILE_ORIGIN = "basemap.cartocdn.com";
+const TILE_ORIGIN = "basemaps.cartocdn.com";
 
 /* ── install: pre-cache static assets ──────────────── */
 self.addEventListener("install", e => {
@@ -46,8 +46,8 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   const url = new URL(e.request.url);
 
-  // tile: cache-first + 150 cap
-  if (url.hostname === TILE_ORIGIN) {
+  // tile: cache-first + 150 cap (a./b./c./d. サブドメインも含む)
+  if (url.hostname.endsWith(TILE_ORIGIN)) {
     e.respondWith(tileFirst(e.request));
     return;
   }
@@ -68,7 +68,8 @@ self.addEventListener("fetch", e => {
 async function networkFirst(req, cacheName) {
   const cache = await caches.open(cacheName);
   try {
-    const res = await fetch(req);
+    // no-cache: HTTPキャッシュを常に再検証(開発時のstale防止)
+    const res = await fetch(req, { cache: "no-cache" });
     if (res.ok) cache.put(req, res.clone());
     return res;
   } catch {
